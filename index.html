@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Kontrol Lampu</title>
+</head>
+<body>
+  <h1>Kontrol Lampu</h1>
+  <button id="lampuOn">Nyalakan Lampu</button>
+  <button id="lampuOff">Matikan Lampu</button>
+
+  <script>
+    // Fungsi untuk mengirim permintaan ke ESP8266
+    function kirimPerintah(status) {
+      fetch('https://<URL_LAYANAN_WEB_ANDA>', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ status: status })
+      })
+      .then(response => {
+        if (response.ok) {
+          console.log('Permintaan berhasil dikirim');
+        } else {
+          console.error('Gagal mengirim permintaan');
+        }
+      })
+      .catch(error => {
+        console.error('Terjadi kesalahan:', error);
+      });
+    }
+
+    // Menghubungkan tombol ke fungsi kirimPerintah
+    document.getElementById('lampuOn').addEventListener('click', function() {
+      kirimPerintah('ON');
+    });
+
+    document.getElementById('lampuOff').addEventListener('click', function() {
+      kirimPerintah('OFF');
+    });
+  </script>
+</body>
+</html>
